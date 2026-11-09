@@ -1,21 +1,19 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: pawcare
+    container_name: pawcare-app
     restart: always
     ports:
-      - "3000:3000"
+      - "${PORT:-3000}:3000"
     environment:
       PORT: 3000
       DB_HOST: db
       DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: pawcare_password
-      DB_NAME: pawcare_db
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-pawcare_password}
+      DB_NAME: ${DB_NAME:-pawcare_db}
     depends_on:
       db:
         condition: service_healthy
@@ -27,20 +25,31 @@ services:
     container_name: pawcare-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: pawcare_password
-      MYSQL_DATABASE: pawcare_db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-pawcare_password}
+      MYSQL_DATABASE: ${DB_NAME:-pawcare_db}
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - pawcare-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppawcare_password"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-pawcare_password}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
+
+  adminer:
+    image: adminer:latest
+    container_name: pawcare-adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - pawcare-network
+    profiles:
+      - tools
 
 volumes:
   db_data:
