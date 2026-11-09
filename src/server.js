@@ -34,6 +34,16 @@ const initDb = async () => {
   `;
   try {
     await pool.query(query);
+    const [rows] = await pool.query('SELECT COUNT(*) AS total FROM appointments');
+    if (rows[0].total === 0) {
+      const dummyQuery = `
+        INSERT INTO appointments (owner_name, pet_name, service_type, phone, address, complaint) VALUES
+        ('Sarah', 'Mochi - Cat', 'Online Consultation', '+6281234567', '-', 'Vomiting water since morning and refusing treats'),
+        ('David', 'Dudu - Dog', 'Home Visit', '+6285678912345', 'Bandung', 'Annual vaccination schedule and routine physical checkup'),
+        ('Amelia', 'Nana - Rabbit', 'Online Consultation', '+6281234567', '-', 'Right ear appears reddish and scratching frequently');
+      `;
+      await pool.query(dummyQuery);
+      console.log('Dummy appointments seeded successfully');
   } catch (err) {
     console.error(err.message);
   }
