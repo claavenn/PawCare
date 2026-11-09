@@ -43,7 +43,7 @@ const initDb = async () => {
         ('Amelia', 'Nana - Rabbit', 'Online Consultation', '+6281234567', '-', 'Right ear appears reddish and scratching frequently');
       `;
       await pool.query(dummyQuery);
-      console.log('Dummy appointments seeded successfully');
+      console.log('Dummy appointments seeded successfully'); }
   } catch (err) {
     console.error(err.message);
   }
