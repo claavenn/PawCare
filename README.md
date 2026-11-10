@@ -45,9 +45,10 @@ docker compose up -d --build
 
 4. Access the application:
 Open your browser and navigate to: http://localhost:3000
+GitHub Codespaces: Go to the ports tab in your bottom terminal panel, find port '3000', and click the globe icon to open the website in your browser or use the auto-forwarded URL
 Check container status: *docker compose ps*
 
-### Advanced Operations
+## Advanced Operations
 Running Database Management Tools (Adminer)
 To inspect the MySQL database schema and records via Adminer without modifying standard production services:
 *docker compose --profile tools up -d*
@@ -68,7 +69,7 @@ curl -i http://localhost:3000/health
 3. Restart the stack: *docker compose up -d*
 4. Refresh your browser; the appointment data remains intact because it is stored in the persistent named volume db_data. Note: Running docker compose down retains the volume. If you explicitly want to purge all stored records, run docker compose down -v.
 
-#### Screenshots
+## Screenshots
 Application Interface & Live Queue
 ![PawCare Interface](docs/demo.png)
 ![PawCare Live Queue](docs/demo2.png)
@@ -76,12 +77,12 @@ Application Interface & Live Queue
 Container Status & Healthcheck (docker compose ps)
 ![PawCare Container Status & Healthcheck](docs/healthy.png)
 
-#### Project Links
+## Project Links
 Technical Article (Medium / Blog): https://medium.com/@priscillaciella/building-pawcare-how-my-past-struggles-with-a-sick-dog-led-to-a-containerized-pet-app-98fe25d8e5be 
 YouTube Video Demonstration: https://youtu.be/v-ju5mfzV18?si=W34fpK13X-JERK2f
 
 
-##### AI Usage Declaration
+## AI Usage Declaration
 During the development of the PawCare project:
 Generative AI Tools Used: Google Gemini & Claude.
 
